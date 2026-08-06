@@ -1,0 +1,26 @@
+---
+/**
+ * Indicador de força em 3 bolinhas (Intensidade/Corpo/Limpeza dos
+ * métodos de preparo). `value` bolinhas ficam "acesas" (cor da marca),
+ * o resto fica na cor neutra --beige.
+ */
+interface Props {
+  value: 1 | 2 | 3;
+  class?: string;
+}
+const { value, class: extra = "" } = Astro.props;
+---
+
+<span class={`inline-flex gap-1.5 ${extra}`}>
+  {
+    [1, 2, 3].map((i) => (
+      <i
+        class:list={[
+          "block size-2.5 rounded-full",
+          i <= value ? "bg-orange" : "bg-beige",
+        ]}
+        aria-hidden="true"
+      />
+    ))
+  }
+</span>

@@ -1,0 +1,44 @@
+---
+import { Image } from "astro:assets";
+import { socialProof } from "../../config/content";
+import { getImage } from "../../lib/images";
+import Section from "../ui/Section.astro";
+
+const teamImg = getImage(socialProof.teamImage.src);
+---
+
+<Section id="depoimentos" tone="subtle" eyebrow={socialProof.eyebrow} title={socialProof.title}>
+  <div class="grid items-stretch gap-10 lg:grid-cols-2 lg:gap-16">
+    <div class="reveal relative aspect-[4/3.2] overflow-hidden rounded-[var(--radius-card)] bg-surface">
+      {
+        teamImg && (
+          <Image
+            src={teamImg}
+            alt={socialProof.teamImage.alt}
+            widths={[400, 700, 1100]}
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            quality={78}
+            class="h-full w-full object-cover"
+            loading="lazy"
+          />
+        )
+      }
+      <div class="absolute left-4 top-4 inline-flex max-w-[85%] items-center gap-2 rounded-lg bg-surface/90 px-3 py-2 shadow-[var(--shadow-soft)] backdrop-blur">
+        <span class="text-base text-orange" aria-hidden="true">★</span>
+        <p class="text-xs leading-snug text-ink">{socialProof.award.label}</p>
+      </div>
+    </div>
+    <div class="reveal flex flex-col gap-5">
+      {
+        socialProof.testimonials.map((t) => (
+          <blockquote class="rounded-xl border border-line bg-surface p-7">
+            <p class="font-display text-[1.2rem] leading-snug text-ink">“{t.quote}”</p>
+            <footer class="mt-4.5 text-[13.5px] font-semibold text-muted">
+              {t.author} — {t.role}
+            </footer>
+          </blockquote>
+        ))
+      }
+    </div>
+  </div>
+</Section>

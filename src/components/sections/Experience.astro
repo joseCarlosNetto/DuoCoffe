@@ -1,0 +1,65 @@
+---
+import { Image } from "astro:assets";
+import { experience } from "../../config/content";
+import { getImage } from "../../lib/images";
+import Section from "../ui/Section.astro";
+
+// Classes literais (não interpoladas) para o scanner do Tailwind conseguir detectar.
+// Abaixo de sm: mosaico vira lista de 1 coluna (fiel ao breakpoint 560px do protótipo).
+const colSpanClass: Record<number, string> = {
+  4: "sm:col-span-4",
+  5: "sm:col-span-5",
+  7: "sm:col-span-7",
+};
+const rowSpanClass: Record<number, string> = {
+  1: "sm:row-span-1",
+  2: "sm:row-span-2",
+  3: "sm:row-span-3",
+};
+---
+
+<Section id="sobre" eyebrow={experience.eyebrow} title={experience.title} subtitle={experience.lede}>
+  <div class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-12 sm:[grid-auto-rows:130px]">
+    {
+      experience.gallery.map((tile) => {
+        const img = getImage(tile.image.src);
+        return (
+          <figure
+            class:list={[
+              "reveal relative m-0 aspect-[4/3] overflow-hidden rounded-[var(--radius-card)] bg-subtle sm:aspect-auto",
+              colSpanClass[tile.colSpan],
+              rowSpanClass[tile.rowSpan],
+            ]}
+          >
+            {img && (
+              <Image
+                src={img}
+                alt={tile.image.alt}
+                widths={[400, 700, 1300]}
+                sizes="(max-width: 768px) 100vw, 50vw"
+                quality={78}
+                class="h-full w-full object-cover"
+                loading="lazy"
+              />
+            )}
+            {tile.caption && (
+              <figcaption class="absolute bottom-3 left-3.5 rounded-full bg-dark/80 px-3 py-1.5 text-xs font-semibold text-white">
+                {tile.caption}
+              </figcaption>
+            )}
+          </figure>
+        );
+      })
+    }
+  </div>
+
+  <div class="mt-7 flex flex-wrap gap-2.5">
+    {
+      experience.tags.map((tag) => (
+        <span class="rounded-full border border-line px-3.5 py-1.5 text-[13px] font-semibold text-brown">
+          {tag}
+        </span>
+      ))
+    }
+  </div>
+</Section>

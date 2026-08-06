@@ -1,0 +1,157 @@
+@import "tailwindcss";
+
+/* Fontes self-hospedadas (ver BaseLayout.astro) — melhor LCP que Google Fonts via CDN. */
+@import "@fontsource/fraunces/400.css";
+@import "@fontsource/fraunces/500.css";
+@import "@fontsource/fraunces/600.css";
+@import "@fontsource/fraunces/400-italic.css";
+@import "@fontsource/manrope/400.css";
+@import "@fontsource/manrope/500.css";
+@import "@fontsource/manrope/600.css";
+@import "@fontsource/manrope/700.css";
+
+/*
+ * ─────────────────────────────────────────────────────────────
+ *  DESIGN TOKENS — Duo Coffee
+ * ─────────────────────────────────────────────────────────────
+ *  --brand / --brand-dark são injetadas pelo BaseLayout a partir
+ *  de src/config/site.ts (laranja do botão primário — único token
+ *  client-editável). O resto da paleta é fixo deste projeto e vive
+ *  direto aqui, pois faz parte da identidade visual da Duo Coffee,
+ *  não de um mecanismo de reskin genérico.
+ *
+ *  Os tokens viram utilitários do Tailwind automaticamente:
+ *    bg-brand  text-forest  border-line  bg-cream ...
+ * ─────────────────────────────────────────────────────────────
+ */
+@theme {
+  /* Cor da marca (botão primário) — vem do config via variável CSS de runtime */
+  --color-brand: var(--brand);
+  --color-brand-dark: var(--brand-dark);
+
+  /* Paleta fixa Duo Coffee */
+  --color-cream: #f4efe6; /* fundo padrão da página */
+  --color-soft: #faf8f2; /* fundo alternado entre seções */
+  --color-forest: #17382f; /* seções escuras (Eventos, destaque do cardápio) */
+  --color-dark: #102a24; /* rodapé */
+  --color-brown: #6a4636; /* acentos, citação em itálico */
+  --color-beige: #d8cdbd; /* bolinhas de força "desligadas" nos métodos */
+  --color-orange: #e85d2a; /* acento decorativo (ícones, bolinhas "ligadas") */
+  --color-orange-t: #c1461c; /* eyebrow/links sobre fundo claro */
+  --color-orange-soft: #f0996f; /* eyebrow/acentos sobre fundo escuro (forest/dark) */
+  --color-whatsapp: #25d366; /* verde do WhatsApp — cor de marca de terceiro, fixa */
+
+  /* Neutros do sistema (nomes semânticos usados pelos componentes) */
+  --color-ink: #191916; /* = --char do protótipo: texto principal */
+  --color-muted: #5b5247; /* texto secundário */
+  --color-line: rgba(25, 25, 22, 0.12); /* divisórias/bordas */
+  --color-subtle: var(--color-soft); /* fundo alternado = --soft */
+  --color-surface: var(--color-cream); /* fundo padrão/cards = --cream */
+
+  /* Tipografia — serifa editorial + sans neutra, como no protótipo */
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+
+  /* Raio e sombra padronizados */
+  --radius-card: 6px;
+  --shadow-soft: 0 8px 30px -12px rgba(25, 25, 22, 0.18);
+}
+
+/* Fallback caso o layout não injete (ex.: preview de componente) */
+:root {
+  --brand: #ce4a1e;
+  --brand-dark: #a93a15;
+  scroll-behavior: smooth;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: var(--color-surface);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+    text-wrap: balance; /* títulos não quebram feio */
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Piso de acessibilidade: foco sempre visível no teclado */
+  :focus-visible {
+    outline: 3px solid var(--color-brand);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Respeita quem pediu menos movimento */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Largura padrão do conteúdo, reutilizada em todas as seções */
+  .container-x {
+    width: 100%;
+    max-width: 72rem; /* ~1152px */
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  /* Animação de entrada ao rolar (controlada por JS no BaseLayout) */
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Link de navegação com indicador ativo (sublinhado), controlado
+     pelo scroll-spy em BaseLayout.astro */
+  .navlink {
+    position: relative;
+    padding-block: 6px;
+  }
+  .navlink::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 100%;
+    background: var(--color-orange);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.22s;
+  }
+  .navlink:hover {
+    color: var(--color-orange-t);
+  }
+  .navlink:hover::after,
+  .navlink.is-active::after {
+    transform: scaleX(1);
+  }
+  .navlink.is-active {
+    color: var(--color-orange-t);
+  }
+}

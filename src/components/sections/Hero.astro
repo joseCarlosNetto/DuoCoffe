@@ -1,0 +1,70 @@
+---
+import { Image } from "astro:assets";
+import { hero } from "../../config/content";
+import { getImage } from "../../lib/images";
+import Button from "../ui/Button.astro";
+
+const mainImg = getImage(hero.images.main.src);
+const detailImg = getImage(hero.images.detail.src);
+---
+
+<section id="inicio" class="bg-surface pb-14 pt-6 sm:pb-24 sm:pt-10">
+  <div class="container-x grid items-center gap-10 lg:grid-cols-[1.05fr_1.15fr] lg:gap-14">
+    <!-- Texto -->
+    <div class="reveal">
+      <p class="text-xs font-bold uppercase tracking-[0.22em] text-orange-t">{hero.eyebrow}</p>
+      <h1 class="mt-5 text-[clamp(2.5rem,6.4vw,5.5rem)] leading-[1.03] text-ink">{hero.title}</h1>
+      <p class="mt-6 max-w-[44ch] text-lg leading-relaxed text-muted">{hero.lede}</p>
+
+      <div class="mt-8 flex flex-wrap items-center gap-3.5">
+        {
+          hero.ctas.map((cta) => (
+            <Button href={cta.href} variant={cta.variant as "primary" | "secondary" | "ghost"}>
+              {cta.label}
+            </Button>
+          ))
+        }
+      </div>
+
+      <div class="mt-10 flex items-center gap-2.5 text-xs uppercase tracking-[0.2em] text-muted">
+        <i class="block h-px w-8 bg-muted" aria-hidden="true" />
+        {hero.scrollCue}
+      </div>
+    </div>
+
+    <!-- Imagens sobrepostas -->
+    <div class="relative">
+      <div class="aspect-[4/4.6] overflow-hidden rounded-[var(--radius-card)] bg-soft">
+        {
+          mainImg && (
+            <Image
+              src={mainImg}
+              alt={hero.images.main.alt}
+              widths={[480, 768, 1024, 1440]}
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              quality={80}
+              class="h-full w-full object-cover"
+              loading="eager"
+              fetchpriority="high"
+            />
+          )
+        }
+      </div>
+      <div class="absolute -bottom-7 -left-8 aspect-square w-[44%] overflow-hidden rounded-[var(--radius-card)] border-[8px] border-cream bg-soft shadow-[0_20px_50px_rgba(16,42,36,0.22)]">
+        {
+          detailImg && (
+            <Image
+              src={detailImg}
+              alt={hero.images.detail.alt}
+              widths={[240, 400, 600]}
+              sizes="240px"
+              quality={78}
+              class="h-full w-full object-cover"
+              loading="eager"
+            />
+          )
+        }
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cp -r '/c/Users/Netto/Documents/JCN/Desenvolvimento de Sites/astro-boilerplate/.claude' '/g/Meu Drive/JCN/Sites/Clientes/DuoCoffe/Site/.claude')",
+      "Bash(cp '/c/Users/Netto/Documents/JCN/Desenvolvimento de Sites/astro-boilerplate/.gitignore' '/g/Meu Drive/JCN/Sites/Clientes/DuoCoffe/Site/.gitignore')",
+      "Bash(cp '/c/Users/Netto/Documents/JCN/Desenvolvimento de Sites/astro-boilerplate/astro.config.mjs' '/g/Meu Drive/JCN/Sites/Clientes/DuoCoffe/Site/astro.config.mjs')",
+      "Bash(cp '/c/Users/Netto/Documents/JCN/Desenvolvimento de Sites/astro-boilerplate/CLAUDE.md' '/g/Meu Drive/JCN/Sites/Clientes/DuoCoffe/Site/CLAUDE.md')",
+      "Bash(cp '/c/Users/Netto/Documents/JCN/Desenvolvimento de Sites/astro-boilerplate/package.json' '/g/Meu Drive/JCN/Sites/Clientes/DuoCoffe/Site/package.json')"
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+---
+import Section from "../ui/Section.astro";
+import Icon from "../ui/Icon.astro";
+import { faq } from "../../config/content";
+---
+
+{
+  faq.length > 0 && (
+    <Section id="duvidas" eyebrow="Antes de agendar" title="Perguntas frequentes" tone="subtle" center>
+      <div class="mx-auto max-w-2xl space-y-3">
+        {faq.map((item) => (
+          <details class="reveal group rounded-[var(--radius-card)] border border-line bg-surface px-6 open:shadow-[var(--shadow-soft)]">
+            <summary class="flex cursor-pointer items-center justify-between gap-4 py-5 text-left font-semibold text-ink marker:content-none">
+              {item.question}
+              <Icon
+                name="plus"
+                class="size-5 shrink-0 text-brand transition-transform duration-200 group-open:rotate-45"
+              />
+            </summary>
+            <p class="pb-5 leading-relaxed text-muted">{item.answer}</p>
+          </details>
+        ))}
+      </div>
+    </Section>
+  )
+}

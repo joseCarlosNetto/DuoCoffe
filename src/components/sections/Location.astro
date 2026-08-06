@@ -1,0 +1,81 @@
+---
+import { site } from "../../config/site";
+import { location } from "../../config/content";
+import Button from "../ui/Button.astro";
+
+const addr = site.contact.address;
+const waLink = `https://wa.me/${site.contact.whatsapp}`;
+const mapQuery = encodeURIComponent(
+  `${addr.streetAddress}, ${addr.neighborhood}, ${addr.addressLocality} - ${addr.addressRegion}`
+);
+const mapEmbedSrc = `https://www.google.com/maps?q=${mapQuery}&output=embed`;
+---
+
+<section id="contato" class="bg-surface py-16 sm:py-24">
+  <div class="container-x">
+    <p class="text-sm font-semibold uppercase tracking-wider text-orange-t">{location.eyebrow}</p>
+    <h2 class="mt-4 font-display text-3xl text-ink sm:text-4xl">{location.title}</h2>
+
+    <div class="mt-10 grid items-stretch gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+      <!-- Info -->
+      <div class="reveal">
+        <dl class="grid">
+          <div class="flex gap-4.5 border-t border-line py-4.5">
+            <dt class="w-[120px] shrink-0 pt-0.5 text-xs font-bold uppercase tracking-wider text-muted">
+              Endereço
+            </dt>
+            <dd class="m-0 text-base text-ink">
+              {addr.streetAddress}<br />
+              <span class="text-[14.5px] text-muted">
+                {addr.neighborhood}, {addr.addressLocality}/{addr.addressRegion}
+              </span>
+            </dd>
+          </div>
+          <div class="flex gap-4.5 border-t border-line py-4.5">
+            <dt class="w-[120px] shrink-0 pt-0.5 text-xs font-bold uppercase tracking-wider text-muted">
+              Horários
+            </dt>
+            <dd class="m-0 text-base text-ink">
+              {site.contact.hoursDisplay.weekdays}<br />
+              {site.contact.hoursDisplay.saturday}<br />
+              <span class="text-[14.5px] text-muted">{site.contact.hoursDisplay.closedNote}</span>
+            </dd>
+          </div>
+          <div class="flex gap-4.5 border-t border-line py-4.5">
+            <dt class="w-[120px] shrink-0 pt-0.5 text-xs font-bold uppercase tracking-wider text-muted">
+              WhatsApp
+            </dt>
+            <dd class="m-0 text-base text-ink">{site.contact.whatsappDisplay}</dd>
+          </div>
+          <div class="flex gap-4.5 border-t border-line py-4.5">
+            <dt class="w-[120px] shrink-0 pt-0.5 text-xs font-bold uppercase tracking-wider text-muted">
+              Telefone
+            </dt>
+            <dd class="m-0 text-base text-ink">{site.contact.phoneDisplay}</dd>
+          </div>
+        </dl>
+
+        <div class="mt-7 flex flex-wrap gap-3.5">
+          <Button href={site.contact.mapsUrl} target="_blank" rel="noopener" variant="primary">
+            {location.directionsLabel}
+          </Button>
+          <Button href={waLink} target="_blank" rel="noopener" variant="whatsapp">
+            {location.whatsappLabel}
+          </Button>
+        </div>
+      </div>
+
+      <!-- Mapa real do Google Maps, com o endereço da Duo Coffee -->
+      <div class="relative min-h-[340px] overflow-hidden rounded-[var(--radius-card)] border border-line">
+        <iframe
+          src={mapEmbedSrc}
+          title={location.mapLabel}
+          class="absolute inset-0 h-full w-full"
+          style="border:0"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</section>

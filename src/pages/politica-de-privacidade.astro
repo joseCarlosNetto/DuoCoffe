@@ -1,0 +1,57 @@
+---
+/**
+ * TODO(cliente): texto de placeholder, estruturalmente correto mas
+ * genérico. Precisa de revisão jurídica antes do lançamento — não
+ * inventamos cláusulas específicas do negócio (ver CLAUDE.md).
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../config/site";
+---
+
+<BaseLayout
+  title={`Política de Privacidade — ${site.name}`}
+  description="Como a Duo Coffee coleta, usa e protege os dados enviados pelo formulário de eventos do site."
+  path="/politica-de-privacidade"
+>
+  <section class="bg-surface py-20 sm:py-28">
+    <div class="container-x max-w-3xl">
+      <p class="mb-3 text-sm font-semibold uppercase tracking-wider text-orange-t">Privacidade</p>
+      <h1 class="font-display text-4xl text-ink">Política de Privacidade</h1>
+      <p class="mt-6 text-muted leading-relaxed">
+        Esta página descreve como a {site.name} trata os dados enviados através do
+        formulário de solicitação de eventos deste site, em conformidade com a Lei
+        Geral de Proteção de Dados (LGPD — Lei nº 13.709/2018).
+      </p>
+
+      <h2 class="mt-10 font-display text-2xl text-ink">Quais dados coletamos</h2>
+      <p class="mt-3 text-muted leading-relaxed">
+        Ao preencher o formulário de eventos, coletamos nome, WhatsApp, tipo de
+        evento, data aproximada, número estimado de pessoas e a mensagem que você
+        escrever. Esses dados são enviados diretamente para nossa equipe de
+        atendimento.
+      </p>
+
+      <h2 class="mt-10 font-display text-2xl text-ink">Para que usamos</h2>
+      <p class="mt-3 text-muted leading-relaxed">
+        Usamos essas informações exclusivamente para responder à sua solicitação
+        de evento — confirmar disponibilidade, capacidade e condições — pelo
+        WhatsApp ou telefone informado. Não vendemos nem compartilhamos seus dados
+        com terceiros para fins de marketing.
+      </p>
+
+      <h2 class="mt-10 font-display text-2xl text-ink">Seus direitos</h2>
+      <p class="mt-3 text-muted leading-relaxed">
+        Você pode solicitar a qualquer momento a confirmação, correção ou exclusão
+        dos seus dados, entrando em contato pelo e-mail{" "}
+        <a href={`mailto:${site.contact.email}`} class="text-orange-t hover:text-ink">
+          {site.contact.email}
+        </a>{" "}
+        ou pelo WhatsApp {site.contact.whatsappDisplay}.
+      </p>
+
+      <p class="mt-10 text-sm text-muted">
+        Última atualização: a definir após revisão jurídica.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

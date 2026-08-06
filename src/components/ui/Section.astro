@@ -1,0 +1,56 @@
+---
+/**
+ * Wrapper de seção: padroniza espaçamento vertical, largura do
+ * conteúdo e o cabeçalho (eyebrow + título + subtítulo).
+ * Usar isto em todas as seções garante ritmo consistente.
+ */
+interface Props {
+  id?: string;
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  /** fundo alternado para criar contraste entre seções */
+  tone?: "default" | "subtle" | "forest";
+  /** centraliza o cabeçalho */
+  center?: boolean;
+  class?: string;
+}
+const {
+  id,
+  eyebrow,
+  title,
+  subtitle,
+  tone = "default",
+  center = false,
+  class: extra = "",
+} = Astro.props;
+
+const bg =
+  tone === "subtle" ? "bg-subtle" : tone === "forest" ? "bg-forest text-cream" : "bg-surface";
+const eyebrowColor = tone === "forest" ? "text-orange-soft" : "text-orange-t";
+const titleColor = tone === "forest" ? "text-white" : "text-ink";
+const subtitleColor = tone === "forest" ? "text-cream/80" : "text-muted";
+const align = center ? "text-center mx-auto" : "";
+const hasHeader = eyebrow || title || subtitle;
+---
+
+<section id={id} class={`${bg} py-20 sm:py-28 ${extra}`}>
+  <div class="container-x">
+    {
+      hasHeader && (
+        <div class={`max-w-2xl ${align} mb-12 sm:mb-16 reveal`}>
+          {eyebrow && (
+            <p class={`text-sm font-semibold uppercase tracking-wider ${eyebrowColor} mb-3`}>
+              {eyebrow}
+            </p>
+          )}
+          {title && <h2 class={`text-3xl sm:text-4xl ${titleColor}`}>{title}</h2>}
+          {subtitle && (
+            <p class={`mt-4 text-lg ${subtitleColor} leading-relaxed`}>{subtitle}</p>
+          )}
+        </div>
+      )
+    }
+    <slot />
+  </div>
+</section>
