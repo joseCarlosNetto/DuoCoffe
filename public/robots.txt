@@ -1,0 +1,30 @@
+User-agent: *
+Allow: /
+
+# Bloqueia crawlers de treinamento de IA (não usar o conteúdo para treinar modelos)
+User-agent: GPTBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+# Permite explicitamente agentes de recuperação/citação (respostas de IA ao vivo)
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+Sitemap: https://duocoffeepp.com.br/sitemap-index.xml

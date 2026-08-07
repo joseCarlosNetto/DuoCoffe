@@ -1,0 +1,130 @@
+---
+import { Image } from "astro:assets";
+import { methods } from "../../config/content";
+import { getImage } from "../../lib/images";
+import Section from "../ui/Section.astro";
+import StrengthDots from "../ui/StrengthDots.astro";
+import Button from "../ui/Button.astro";
+
+const { quiz } = methods;
+---
+
+<Section id="metodos" tone="subtle" eyebrow={methods.eyebrow} title={methods.title} subtitle={methods.lede}>
+  <div class="mt-10 grid gap-4 md:grid-cols-2 lg:grid-flow-dense lg:grid-cols-3">
+    {
+      methods.items.map((method) => {
+        const img = method.image ? getImage(method.image.src) : undefined;
+        if (method.featured) {
+          return (
+            <div class="relative flex min-h-[340px] flex-col overflow-hidden rounded-[var(--radius-card)] bg-forest p-6 pt-14 text-cream lg:row-span-2">
+              <div class="absolute inset-0">
+                {img && (
+                  <Image
+                    src={img}
+                    alt={method.image?.alt ?? ""}
+                    widths={[400, 700, 1000]}
+                    sizes="(max-width: 1024px) 100vw, 33vw"
+                    class="h-full w-full object-cover opacity-50"
+                    loading="lazy"
+                  />
+                )}
+                <div class="absolute inset-0 bg-gradient-to-b from-dark/20 to-dark/90" />
+              </div>
+              <div class="relative z-10 flex h-full flex-col">
+                {method.tag && (
+                  <span class="absolute left-0 top-0 text-[11px] font-bold uppercase tracking-[0.18em] text-orange-soft">
+                    {method.tag}
+                  </span>
+                )}
+                <p class="font-display text-[1.9rem] text-white">{method.name}</p>
+                <p class="mt-2 text-sm text-cream/80">{method.description}</p>
+                <div class="mt-auto flex flex-col gap-2.5 pt-6">
+                  {method.attributes.map((attr) => (
+                    <div class="flex items-center gap-3 text-sm">
+                      <span class="w-[82px] shrink-0 text-[11px] font-bold uppercase tracking-[0.06em] text-cream/65">
+                        {attr.label}
+                      </span>
+                      <StrengthDots value={attr.strength} />
+                      <span class="font-semibold text-white">{attr.value}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          );
+        }
+        return (
+          <div class="flex flex-col rounded-[var(--radius-card)] border border-line bg-surface p-6 transition-transform hover:-translate-y-1 hover:shadow-[var(--shadow-soft)]">
+            <p class="font-display text-[1.6rem] text-ink">{method.name}</p>
+            <p class="mt-2 text-sm text-muted">{method.description}</p>
+            <div class="mt-auto flex flex-col gap-2.5 pt-6">
+              {method.attributes.map((attr) => (
+                <div class="flex items-center gap-3 text-sm">
+                  <span class="w-[82px] shrink-0 text-[11px] font-bold uppercase tracking-[0.06em] text-muted">
+                    {attr.label}
+                  </span>
+                  <StrengthDots value={attr.strength} />
+                  <span class="font-semibold text-ink">{attr.value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })
+    }
+  </div>
+
+  <!-- Quiz de recomendação -->
+  <div class="mt-9 flex flex-wrap items-center gap-4 border-t border-line pt-7" data-quiz>
+    <h3 class="font-display text-xl text-ink">{quiz.prompt}</h3>
+    <Button data-quiz-trigger variant="primary">{quiz.triggerLabel}</Button>
+
+    <div data-quiz-panel hidden class="mt-2 w-full rounded-xl border border-line bg-surface p-5">
+      <p class="mb-3.5 font-semibold text-ink">{quiz.question}</p>
+      <div class="flex flex-wrap gap-2.5">
+        {
+          quiz.options.map((opt) => (
+            <button
+              type="button"
+              data-quiz-option={opt.id}
+              class="rounded-full border-[1.5px] border-line bg-subtle px-4.5 py-3 text-sm font-semibold text-ink transition-colors hover:border-orange hover:bg-white"
+            >
+              {opt.label}
+            </button>
+          ))
+        }
+      </div>
+      <p
+        data-quiz-result
+        aria-live="polite"
+        hidden
+        class="mt-4 flex gap-2.5 font-display text-[1.15rem] italic text-brown"
+      >
+        <span aria-hidden="true">→</span>
+        <span data-quiz-result-text />
+      </p>
+    </div>
+  </div>
+</Section>
+
+<script define:vars={{ results: quiz.results }}>
+  const root = document.querySelector("[data-quiz]");
+  if (root) {
+    const trigger = root.querySelector("[data-quiz-trigger]");
+    const panel = root.querySelector("[data-quiz-panel]");
+    const resultEl = root.querySelector("[data-quiz-result]");
+    const resultText = root.querySelector("[data-quiz-result-text]");
+
+    trigger?.addEventListener("click", () => {
+      panel.hidden = !panel.hidden;
+    });
+
+    root.querySelectorAll("[data-quiz-option]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const key = btn.getAttribute("data-quiz-option");
+        resultText.textContent = results[key] ?? "";
+        resultEl.hidden = false;
+      });
+    });
+  }
+</script>

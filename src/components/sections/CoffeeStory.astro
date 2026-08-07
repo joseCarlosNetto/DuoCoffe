@@ -1,0 +1,55 @@
+---
+import { Image } from "astro:assets";
+import { coffeeStory } from "../../config/content";
+import { getImage } from "../../lib/images";
+import Section from "../ui/Section.astro";
+import Button from "../ui/Button.astro";
+
+const mainImg = getImage(coffeeStory.images.main.src);
+const detailImg = getImage(coffeeStory.images.detail.src);
+---
+
+<Section id="cafes" eyebrow={coffeeStory.eyebrow} title={coffeeStory.title}>
+  <div class="mt-10 grid items-center gap-10 lg:grid-cols-[1.15fr_.85fr] lg:gap-16">
+    <!-- Fotos -->
+    <div class="relative reveal">
+      <div class="aspect-[4/4.4] overflow-hidden rounded-[var(--radius-card)] bg-subtle">
+        {
+          mainImg && (
+            <Image
+              src={mainImg}
+              alt={coffeeStory.images.main.alt}
+              widths={[400, 700, 1000]}
+              sizes="(max-width: 1024px) 100vw, 55vw"
+              class="h-full w-full object-cover"
+              loading="lazy"
+            />
+          )
+        }
+      </div>
+      <div class="absolute -right-7 top-9 aspect-[3/3.4] w-[42%] overflow-hidden rounded-[var(--radius-card)] border-[7px] border-cream bg-subtle shadow-[0_18px_44px_rgba(16,42,36,0.2)]">
+        {
+          detailImg && (
+            <Image
+              src={detailImg}
+              alt={coffeeStory.images.detail.alt}
+              widths={[200, 350, 500]}
+              sizes="200px"
+              class="h-full w-full object-cover"
+              loading="lazy"
+            />
+          )
+        }
+      </div>
+    </div>
+
+    <!-- Copy -->
+    <div class="reveal">
+      {coffeeStory.paragraphs.map((p) => <p class="text-muted leading-relaxed">{p}</p>)}
+      <p class="my-6 border-l-2 border-orange pl-4 font-display text-[1.2rem] italic leading-snug text-brown">
+        {coffeeStory.quote}
+      </p>
+      <Button href={coffeeStory.cta.href} variant="secondary">{coffeeStory.cta.label}</Button>
+    </div>
+  </div>
+</Section>

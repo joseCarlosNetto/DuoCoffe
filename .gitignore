@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.astro/
+.DS_Store
+*.log
+.env
+.vercel
+.netlify
+desktop.ini
+.claude/settings.local.json
+.claude/scheduled_tasks.lock

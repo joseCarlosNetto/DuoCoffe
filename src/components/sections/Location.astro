@@ -1,0 +1,84 @@
+---
+import { site } from "../../config/site";
+import { location } from "../../config/content";
+import Button from "../ui/Button.astro";
+
+const addr = site.contact.address;
+const waLink = `https://wa.me/${site.contact.whatsapp}`;
+---
+
+<section id="contato" class="bg-surface py-16 sm:py-24">
+  <div class="container-x">
+    <p class="text-sm font-semibold uppercase tracking-wider text-orange-t">{location.eyebrow}</p>
+    <h2 class="mt-4 font-display text-3xl text-ink sm:text-4xl">{location.title}</h2>
+
+    <div class="mt-10 grid items-stretch gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+      <!-- Info -->
+      <div class="reveal">
+        <dl class="grid">
+          <div class="flex gap-4.5 border-t border-line py-4.5">
+            <dt class="w-[120px] shrink-0 pt-0.5 text-xs font-bold uppercase tracking-wider text-muted">
+              Endereço
+            </dt>
+            <dd class="m-0 text-base text-ink">
+              {addr.streetAddress}<br />
+              <span class="text-[14.5px] text-muted">
+                {addr.neighborhood}, {addr.addressLocality}/{addr.addressRegion}
+              </span>
+            </dd>
+          </div>
+          <div class="flex gap-4.5 border-t border-line py-4.5">
+            <dt class="w-[120px] shrink-0 pt-0.5 text-xs font-bold uppercase tracking-wider text-muted">
+              Horários
+            </dt>
+            <dd class="m-0 text-base text-ink">
+              {site.contact.hoursDisplay.weekdays}<br />
+              {site.contact.hoursDisplay.saturday}<br />
+              <span class="text-[14.5px] text-muted">{site.contact.hoursDisplay.closedNote}</span>
+            </dd>
+          </div>
+          <div class="flex gap-4.5 border-t border-line py-4.5">
+            <dt class="w-[120px] shrink-0 pt-0.5 text-xs font-bold uppercase tracking-wider text-muted">
+              WhatsApp
+            </dt>
+            <dd class="m-0 text-base text-ink">{site.contact.whatsappDisplay}</dd>
+          </div>
+          <div class="flex gap-4.5 border-t border-line py-4.5">
+            <dt class="w-[120px] shrink-0 pt-0.5 text-xs font-bold uppercase tracking-wider text-muted">
+              Telefone
+            </dt>
+            <dd class="m-0 text-base text-ink">{site.contact.phoneDisplay}</dd>
+          </div>
+        </dl>
+
+        <div class="mt-7 flex flex-wrap gap-3.5">
+          <Button href={site.contact.mapsUrl} target="_blank" rel="noopener" variant="primary">
+            {location.directionsLabel}
+          </Button>
+          <Button href={waLink} target="_blank" rel="noopener" variant="whatsapp">
+            {location.whatsappLabel}
+          </Button>
+        </div>
+      </div>
+
+      <!-- Mapa estilizado (ilustrativo, não interativo) -->
+      <div
+        role="img"
+        aria-label={location.mapLabel}
+        class="relative min-h-[340px] overflow-hidden rounded-[var(--radius-card)] border border-line bg-gradient-to-br from-[#e7dfd0] to-[#d8cdbd]"
+      >
+        <div
+          class="absolute inset-0"
+          style="background-image: repeating-linear-gradient(0deg, rgba(23,56,47,.06) 0 1px, transparent 1px 34px), repeating-linear-gradient(90deg, rgba(23,56,47,.06) 0 1px, transparent 1px 34px), linear-gradient(135deg, #eae3d6, #dfd6c6);"
+        >
+          <span class="absolute left-0 right-0 top-[44%] h-3.5 -rotate-2 bg-[#f6f2ea]"></span>
+          <span class="absolute bottom-0 top-0 left-[38%] w-3 bg-[#f6f2ea]"></span>
+          <span class="absolute left-[38%] top-[44%] flex -translate-x-1/2 -translate-y-full flex-col items-center gap-1.5">
+            <b class="rounded-full bg-ink px-2.5 py-1 text-xs font-bold text-white">{site.name}</b>
+            <span class="size-5 rotate-45 rounded-[50%_50%_50%_0] bg-orange shadow-lg"></span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

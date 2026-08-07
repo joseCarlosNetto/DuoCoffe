@@ -1,0 +1,136 @@
+---
+import { site, nav } from "../config/site";
+import Button from "./ui/Button.astro";
+---
+
+<header
+  class="sticky top-0 z-40 border-b border-line/80 bg-surface/90 backdrop-blur supports-[backdrop-filter]:bg-surface/80"
+>
+  <div class="container-x flex h-16 items-center justify-between gap-4">
+    <!-- Logo. Troque por <Image> quando o crop final do logo estiver pronto (ver lacunas de conteúdo). -->
+    <a href="#inicio" class="flex items-center gap-2 font-display text-lg font-semibold text-ink" aria-label={`${site.name} — início`}>
+      <span class="inline-block size-2.5 rounded-full bg-brand"></span>
+      {site.name}
+    </a>
+
+    <!-- Nav desktop -->
+    <nav id="primary-nav" class="hidden items-center gap-7 md:flex" aria-label="Navegação principal">
+      {
+        nav.map((item) => (
+          <a href={item.href} class="navlink text-sm font-medium text-ink">
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="hidden items-center gap-4 md:flex">
+      <a href="#contato" class="text-sm font-semibold text-ink hover:text-brand">Como chegar</a>
+      <Button href="#eventos" variant="primary" class="!px-5 !py-2.5">
+        Reserve seu evento
+      </Button>
+    </div>
+
+    <!-- Botão menu mobile -->
+    <button
+      id="menu-toggle"
+      class="md:hidden inline-flex size-11 items-center justify-center rounded-xl border-[1.5px] border-ink text-ink"
+      aria-label="Abrir menu"
+      aria-expanded="false"
+      aria-controls="mobile-drawer"
+    >
+      <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M4 7h16M4 12h16M4 17h16" />
+      </svg>
+    </button>
+  </div>
+</header>
+
+<!-- Overlay + drawer mobile -->
+<div id="drawer-overlay" class="fixed inset-0 z-40 hidden bg-dark/50 md:hidden"></div>
+<aside
+  id="mobile-drawer"
+  class="fixed inset-y-0 right-0 z-50 flex w-[min(88vw,360px)] translate-x-full flex-col bg-soft p-6 shadow-2xl transition-transform duration-300 md:hidden"
+  aria-label="Menu"
+  aria-hidden="true"
+>
+  <div class="mb-4 flex items-center justify-between">
+    <span class="font-display text-lg font-semibold text-ink">{site.name}</span>
+    <button
+      id="drawer-close"
+      class="inline-flex size-11 items-center justify-center rounded-xl border-[1.5px] border-ink text-xl text-ink"
+      aria-label="Fechar menu"
+    >
+      ×
+    </button>
+  </div>
+  <nav id="mobile-nav" class="mt-2 flex flex-col" aria-label="Navegação móvel">
+    {
+      nav.map((item) => (
+        <a href={item.href} class="navlink border-b border-line py-4 text-lg text-ink">
+          {item.label}
+        </a>
+      ))
+    }
+  </nav>
+  <div class="mt-6 flex flex-col gap-3">
+    <a href="#contato" class="text-center text-sm font-semibold text-ink">Como chegar</a>
+    <Button href="#eventos" variant="primary" class="w-full justify-center">Reserve seu evento</Button>
+  </div>
+</aside>
+
+<script>
+  const toggle = document.getElementById("menu-toggle") as HTMLButtonElement;
+  const closeBtn = document.getElementById("drawer-close") as HTMLButtonElement;
+  const drawer = document.getElementById("mobile-drawer") as HTMLElement;
+  const overlay = document.getElementById("drawer-overlay") as HTMLElement;
+
+  const focusable = () =>
+    Array.from(drawer.querySelectorAll<HTMLElement>("a, button"));
+
+  function trapFocus(e: KeyboardEvent) {
+    if (e.key !== "Tab") return;
+    const items = focusable();
+    if (!items.length) return;
+    const first = items[0];
+    const last = items[items.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  }
+
+  function escClose(e: KeyboardEvent) {
+    if (e.key === "Escape") closeDrawer();
+  }
+
+  function openDrawer() {
+    drawer.classList.remove("translate-x-full");
+    overlay.classList.remove("hidden");
+    drawer.setAttribute("aria-hidden", "false");
+    toggle.setAttribute("aria-expanded", "true");
+    toggle.setAttribute("aria-label", "Fechar menu");
+    document.addEventListener("keydown", trapFocus);
+    document.addEventListener("keydown", escClose);
+    focusable()[0]?.focus();
+  }
+
+  function closeDrawer() {
+    drawer.classList.add("translate-x-full");
+    overlay.classList.add("hidden");
+    drawer.setAttribute("aria-hidden", "true");
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-label", "Abrir menu");
+    document.removeEventListener("keydown", trapFocus);
+    document.removeEventListener("keydown", escClose);
+    toggle.focus();
+  }
+
+  toggle?.addEventListener("click", openDrawer);
+  closeBtn?.addEventListener("click", closeDrawer);
+  overlay?.addEventListener("click", closeDrawer);
+  drawer?.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeDrawer));
+</script>

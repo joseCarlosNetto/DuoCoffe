@@ -1,0 +1,34 @@
+---
+/**
+ * Botão padronizado. Renderiza como <a> (default) ou <button>.
+ * Variantes: primary (cheio), secondary (contorno), ghost (texto).
+ */
+interface Props {
+  href?: string;
+  variant?: "primary" | "secondary" | "ghost" | "whatsapp";
+  class?: string;
+  [key: string]: any;
+}
+const { href, variant = "primary", class: extra = "", ...rest } = Astro.props;
+
+const base =
+  "inline-flex items-center justify-center gap-2 text-sm font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2";
+
+const variants = {
+  primary:
+    "rounded-full px-6 py-3 bg-brand text-white hover:bg-brand-dark shadow-[var(--shadow-soft)] hover:-translate-y-0.5",
+  // Contorno — equivalente ao .btn-ghost do protótipo (borda/texto ink, preenche no hover)
+  secondary:
+    "rounded-full px-6 py-3 border-[1.5px] border-ink text-ink hover:bg-ink hover:text-cream",
+  // Link de texto sublinhado — equivalente ao .tlink do protótipo
+  ghost: "text-orange-t hover:text-ink underline decoration-1 underline-offset-4",
+  whatsapp: "rounded-full px-6 py-3 bg-whatsapp text-white hover:brightness-95",
+};
+
+const cls = `${base} ${variants[variant]} ${extra}`;
+const Tag = href ? "a" : "button";
+---
+
+<Tag class={cls} href={href} {...rest}>
+  <slot />
+</Tag>
