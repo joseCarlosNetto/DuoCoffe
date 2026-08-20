@@ -245,7 +245,7 @@ export const events = {
     overlay: { src: "events-overlay", alt: "Casa cheia durante um evento com música na Duo Coffee" },
   },
   form: {
-    action: "https://formspree.io/f/xyegbjra",
+    action: "https://formspree.io/f/xeajngqj",
     intro: {
       title: "Vamos planejar juntos?",
       body: "Conte um pouco sobre o seu evento e retornamos com as configurações e a disponibilidade para a sua data. Sem compromisso.",
