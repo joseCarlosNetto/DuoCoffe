@@ -65,6 +65,7 @@ const logo = getImage("brand-logo");
   class="fixed inset-y-0 right-0 z-50 flex w-[min(88vw,360px)] translate-x-full flex-col bg-soft p-6 shadow-2xl transition-transform duration-300 md:hidden"
   aria-label="Menu"
   aria-hidden="true"
+  inert
 >
   <div class="mb-4 flex items-center justify-between">
     <span class="font-display text-lg font-semibold text-ink">{site.name}</span>
@@ -122,6 +123,7 @@ const logo = getImage("brand-logo");
     drawer.classList.remove("translate-x-full");
     overlay.classList.remove("hidden");
     drawer.setAttribute("aria-hidden", "false");
+    drawer.removeAttribute("inert");
     toggle.setAttribute("aria-expanded", "true");
     toggle.setAttribute("aria-label", "Fechar menu");
     document.addEventListener("keydown", trapFocus);
@@ -133,6 +135,7 @@ const logo = getImage("brand-logo");
     drawer.classList.add("translate-x-full");
     overlay.classList.add("hidden");
     drawer.setAttribute("aria-hidden", "true");
+    drawer.setAttribute("inert", "");
     toggle.setAttribute("aria-expanded", "false");
     toggle.setAttribute("aria-label", "Abrir menu");
     document.removeEventListener("keydown", trapFocus);
