@@ -37,7 +37,7 @@
   --color-brown: #6a4636; /* acentos, citação em itálico */
   --color-beige: #d8cdbd; /* bolinhas de força "desligadas" nos métodos */
   --color-orange: #e85d2a; /* acento decorativo (ícones, bolinhas "ligadas") */
-  --color-orange-t: #c1461c; /* eyebrow/links sobre fundo claro */
+  --color-orange-t: #b8421a; /* eyebrow/links sobre fundo claro — contraste AA (4.5:1+) contra cream/soft */
   --color-orange-soft: #f0996f; /* eyebrow/acentos sobre fundo escuro (forest/dark) */
   --color-whatsapp: #25d366; /* verde do WhatsApp — cor de marca de terceiro, fixa */
 

@@ -22,9 +22,9 @@ const featuredImg = featuredMethod?.image ? getImage(featuredMethod.image.src) :
               <Image
                 src={featuredImg}
                 alt={featuredMethod.image?.alt ?? ""}
-                widths={[400, 700, 1000]}
+                widths={[400, 640, 840]}
                 sizes="(max-width: 1024px) 100vw, 320px"
-                quality={78}
+                quality={45}
                 class="h-full w-full object-cover opacity-50"
                 loading="lazy"
               />
