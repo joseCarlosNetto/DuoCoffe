@@ -9,7 +9,15 @@ export default defineConfig({
   // 'site' é usado pelo sitemap e por URLs absolutas no SEO.
   // Puxa do config central para você não esquecer de trocar.
   site: site.url,
-  integrations: [sitemap()],
+  // URL canônica sem barra final em toda página — bate com o que
+  // SEO.astro já emite em `canonical` (new URL(path, site.url)).
+  trailingSlash: "never",
+  build: { format: "file" },
+  integrations: [
+    sitemap({
+      filter: (page) => !page.includes("/404"),
+    }),
+  ],
   vite: {
     plugins: [tailwindcss()],
   },

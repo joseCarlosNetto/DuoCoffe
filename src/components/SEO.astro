@@ -2,20 +2,22 @@
 /**
  * SEO + dados estruturados.
  * - Meta tags e Open Graph para Google e redes sociais.
- * - JSON-LD (CafeOrCoffeeShop) para SEO local e leitura por IAs.
- *   É o que faz o negócio ser "entendido" por buscadores e LLMs,
- *   não só indexado.
+ * - JSON-LD em @graph (WebSite + WebPage + CafeOrCoffeeShop) para SEO
+ *   local e leitura por IAs. É o que faz o negócio ser "entendido" por
+ *   buscadores e LLMs, não só indexado.
  */
 import { site } from "../config/site";
-import { faq as faqItems } from "../config/content";
+import { faq as faqItems, socialProof, experience } from "../config/content";
 
 interface Props {
   title?: string;
   description?: string;
   /** caminho da página, ex.: "/politica-de-privacidade" — default é a home */
   path?: string;
-  /** true para páginas que não devem ser indexadas (ex.: obrigado, rascunho) */
+  /** true para páginas que não devem ser indexadas (ex.: 404) */
   noindex?: boolean;
+  /** emite o schema do negócio (CafeOrCoffeeShop). Default: só na home. */
+  businessSchema?: boolean;
 }
 
 const {
@@ -23,55 +25,119 @@ const {
   description = site.seo.description,
   path = "/",
   noindex = false,
+  businessSchema = path === "/",
 } = Astro.props;
 
 const canonical = new URL(path, site.url).href;
 const ogImage = new URL(site.seo.ogImage, site.url).href;
+const ogImageAlt = `${site.name} — ${site.tagline}`;
 const { address, geo } = site.contact;
 const hasGeo = geo.latitude != null && geo.longitude != null;
 
-// Dados estruturados: descreve o negócio para máquinas (subtipo mais
-// específico que Google recomenda para cafeterias).
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "CafeOrCoffeeShop",
-  name: site.name,
-  legalName: site.legalName,
-  description,
+const businessId = `${site.url}/#business`;
+const websiteId = `${site.url}/#website`;
+const pageId = `${canonical}#webpage`;
+
+// Amenidades genuínas (Wi-Fi, área externa) extraídas das tags da seção
+// "Experiência" — nunca uma lista inventada à parte.
+const AMENITY_MAP: Record<string, string> = {
+  "Wi-Fi": "Wi-Fi",
+  "Área externa": "Assentos ao ar livre",
+};
+const amenities = experience.tags
+  .filter((t) => t in AMENITY_MAP)
+  .map((t) => ({ "@type": "LocationFeatureSpecification", name: AMENITY_MAP[t], value: true }));
+
+const website = {
+  "@type": "WebSite",
+  "@id": websiteId,
   url: site.url,
-  image: [ogImage],
-  telephone: site.contact.phone,
-  email: site.contact.email,
-  priceRange: site.business.priceRange,
-  servesCuisine: site.business.cuisine,
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: address.streetAddress,
-    addressLocality: address.addressLocality,
-    addressRegion: address.addressRegion,
-    ...(address.postalCode ? { postalCode: address.postalCode } : {}),
-    addressCountry: address.addressCountry,
-  },
-  // Nunca fabricar coordenada: só emite `geo` quando confirmado em site.ts.
-  ...(hasGeo
-    ? { geo: { "@type": "GeoCoordinates", latitude: geo.latitude, longitude: geo.longitude } }
-    : {}),
-  openingHoursSpecification: site.contact.hours.map((h) => ({
-    "@type": "OpeningHoursSpecification",
-    dayOfWeek: h.dayOfWeek,
-    opens: h.opens,
-    closes: h.closes,
-  })),
-  menu: `${site.url}/#cardapio`,
-  sameAs: Object.values(site.social).filter(Boolean),
+  name: site.name,
+  inLanguage: site.locale,
+  publisher: { "@id": businessId },
 };
 
+const webPage = {
+  "@type": "WebPage",
+  "@id": pageId,
+  url: canonical,
+  name: title,
+  description,
+  isPartOf: { "@id": websiteId },
+  inLanguage: site.locale,
+  ...(businessSchema
+    ? { about: { "@id": businessId }, primaryImageOfPage: ogImage }
+    : {
+        // Subpáginas (ex.: política de privacidade) ganham uma migalha
+        // de pão simples até a home — não faz sentido na home em si,
+        // que teria um breadcrumb de 1 item só.
+        breadcrumb: {
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Início", item: site.url },
+            { "@type": "ListItem", position: 2, name: title, item: canonical },
+          ],
+        },
+      }),
+};
+
+// Dados estruturados do negócio: descreve a Duo Coffee para máquinas
+// (subtipo mais específico que o Google recomenda para cafeterias).
+// A description do negócio é SEMPRE a do site (site.seo.description),
+// nunca a da página — evita que a política de privacidade "vire" a
+// descrição do negócio quando businessSchema estiver ligado em algum
+// outro lugar no futuro.
+const business = businessSchema
+  ? {
+      "@type": "CafeOrCoffeeShop",
+      "@id": businessId,
+      name: site.name,
+      legalName: site.legalName,
+      taxID: site.cnpj,
+      description: site.seo.description,
+      url: site.url,
+      image: [ogImage],
+      telephone: site.contact.phone,
+      email: site.contact.email,
+      priceRange: site.business.priceRange,
+      currenciesAccepted: "BRL",
+      servesCuisine: site.business.cuisine,
+      foundingDate: String(site.business.foundedYear),
+      hasMap: site.contact.mapsUrl,
+      areaServed: { "@type": "City", name: address.addressLocality },
+      // Prêmio real (post confirmado da própria Duo Coffee) — nunca inventar.
+      award: socialProof.award.label,
+      ...(amenities.length ? { amenityFeature: amenities } : {}),
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: address.streetAddress,
+        addressLocality: address.addressLocality,
+        addressRegion: address.addressRegion,
+        ...(address.postalCode ? { postalCode: address.postalCode } : {}),
+        addressCountry: address.addressCountry,
+      },
+      // Nunca fabricar coordenada: só emite `geo` quando confirmado em site.ts.
+      ...(hasGeo
+        ? { geo: { "@type": "GeoCoordinates", latitude: geo.latitude, longitude: geo.longitude } }
+        : {}),
+      openingHoursSpecification: site.contact.hours.map((h) => ({
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: h.dayOfWeek,
+        opens: h.opens,
+        closes: h.closes,
+      })),
+      menu: `${site.url}/#cardapio`,
+      sameAs: Object.values(site.social).filter(Boolean),
+    }
+  : null;
+
 // FAQPage só é emitido com perguntas reais — nunca fabricar conteúdo (CLAUDE.md).
-const faqJsonLd =
+const faqNode =
   faqItems.length > 0
     ? {
-        "@context": "https://schema.org",
         "@type": "FAQPage",
+        "@id": `${canonical}#faq`,
+        isPartOf: { "@id": websiteId },
         mainEntity: faqItems.map((item) => ({
           "@type": "Question",
           name: item.question,
@@ -79,6 +145,11 @@ const faqJsonLd =
         })),
       }
     : null;
+
+const graph = {
+  "@context": "https://schema.org",
+  "@graph": [website, webPage, business, faqNode].filter(Boolean),
+};
 ---
 
 <!-- Básico -->
@@ -95,6 +166,7 @@ const faqJsonLd =
 <meta property="og:image" content={ogImage} />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={ogImageAlt} />
 <meta property="og:locale" content={site.locale} />
 <meta property="og:site_name" content={site.name} />
 
@@ -103,7 +175,7 @@ const faqJsonLd =
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={ogImage} />
+<meta name="twitter:image:alt" content={ogImageAlt} />
 
 <!-- Dados estruturados -->
-<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-{faqJsonLd && <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />}
+<script type="application/ld+json" set:html={JSON.stringify(graph)} />

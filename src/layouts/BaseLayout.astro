@@ -9,8 +9,10 @@ interface Props {
   title?: string;
   description?: string;
   path?: string;
+  /** true para páginas que não devem ser indexadas (ex.: 404). */
+  noindex?: boolean;
 }
-const { title, description, path } = Astro.props;
+const { title, description, path, noindex } = Astro.props;
 ---
 
 <!doctype html>
@@ -19,6 +21,9 @@ const { title, description, path } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content={site.themeColor} />
     <meta name="generator" content={Astro.generator} />
 
     <!-- Cor da marca vinda do config: reveste o site inteiro -->
@@ -30,7 +35,7 @@ const { title, description, path } = Astro.props;
     <!-- Fraunces/Manrope são self-hospedadas via @fontsource,
          importadas em global.css — sem round-trip a CDN externa. -->
 
-    <SEO title={title} description={description} path={path} />
+    <SEO title={title} description={description} path={path} noindex={noindex} />
   </head>
   <body>
     <a href="#conteudo" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-ink focus:px-4 focus:py-2 focus:text-white">

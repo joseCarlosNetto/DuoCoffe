@@ -245,8 +245,7 @@ export const events = {
     overlay: { src: "events-overlay", alt: "Casa cheia durante um evento com música na Duo Coffee" },
   },
   form: {
-    // TODO(cliente): substituir pelo endpoint real do Formspree deste projeto.
-    action: "https://formspree.io/f/SEU_ID",
+    action: "https://formspree.io/f/xyegbjra",
     intro: {
       title: "Vamos planejar juntos?",
       body: "Conte um pouco sobre o seu evento e retornamos com as configurações e a disponibilidade para a sua data. Sem compromisso.",
@@ -358,13 +357,46 @@ export const location = {
   whatsappLabel: "Falar no WhatsApp",
 };
 
-// FAQ real só entra aqui quando o cliente fornecer perguntas verdadeiras.
-// Vazio por padrão — FAQ.astro não renderiza (nem gera schema FAQPage) enquanto isso.
+// Perguntas levantadas a partir de avaliações públicas reais no Google Maps
+// da Duo Coffee (reclamações recorrentes + respostas públicas do próprio
+// negócio) e de buscas reais do Google ("As pessoas também perguntam").
+// Nenhum dado foi inventado — ver CLAUDE.md.
 export interface FaqItem {
   question: string;
   answer: string;
 }
-export const faq: FaqItem[] = [];
+export const faq: FaqItem[] = [
+  {
+    question: "A Duo Coffee tem Wi-Fi?",
+    answer:
+      "Sim, oferecemos Wi-Fi gratuito para clientes — um espaço confortável para trabalhar, estudar ou só ficar entre um café e outro.",
+  },
+  {
+    question: "Preciso reservar mesa para visitar a Duo Coffee?",
+    answer:
+      "Não é necessário reservar para uma visita do dia a dia — pode chegar e ser atendido normalmente. Para grupos maiores ou eventos, recomendamos falar com a gente pelo WhatsApp com antecedência para garantir a melhor configuração do espaço.",
+  },
+  {
+    question: "A Duo Coffee tem área externa?",
+    answer:
+      "Sim, temos uma área externa coberta, além do espaço interno — ótima opção para dias mais quentes ou para quem prefere um ambiente ao ar livre.",
+  },
+  {
+    question: "A Duo Coffee recebe eventos e reuniões?",
+    answer:
+      "Sim. Reuniões, confraternizações, workshops e celebrações acontecem no nosso espaço interno e externo, com configurações flexíveis e atendimento próximo. Fale com a gente para consultar disponibilidade para a sua data.",
+  },
+  {
+    question: "Qual a diferença entre um café comum e um café especial?",
+    answer:
+      "Café especial é aquele avaliado com nota igual ou superior a 80 pontos (em uma escala de 100) por classificadores certificados, considerando aroma, sabor, acidez, corpo e ausência de defeitos. Na prática, isso significa grãos de origem rastreável e colheita cuidadosa — como os que selecionamos na Duo Coffee, de regiões como Sul de Minas, Mogiana e Espírito Santo.",
+  },
+  {
+    question: "A Duo Coffee atende clientes com restrição alimentar?",
+    answer:
+      "Se você tem alguma restrição alimentar ou alergia, avise nossa equipe no momento do pedido — ajudamos a indicar as melhores opções do cardápio.",
+  },
+];
 
 export const footer = {
   brandOneLiner: "Café especial, encontros memoráveis e sabores preparados para acompanhar.",
@@ -374,4 +406,12 @@ export const footer = {
   // TODO: página real de política de privacidade (LGPD) — ver /politica-de-privacidade.
   privacyLabel: "Política de privacidade",
   privacyHref: "/politica-de-privacidade",
+};
+
+export const notFound = {
+  eyebrow: "Erro 404",
+  title: "Esta página não existe.",
+  body: "O endereço que você acessou não está mais disponível ou foi digitado errado. Volte para a home ou fale com a gente pelo WhatsApp.",
+  homeLabel: "Voltar para a home",
+  directionsLabel: "Como chegar",
 };

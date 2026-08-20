@@ -17,15 +17,18 @@
 export const site = {
   // ── Identidade do negócio ──────────────────────────────────
   name: "Duo Coffee",
-  // TODO(cliente): confirmar razão social exata / CNPJ.
-  legalName: "Duo Coffee Cafeteria",
+  legalName: "Cafeteria Duo Coffee Ltda",
+  cnpj: "67.970.032/0001-90",
   tagline: "Café especial para viver bons momentos.",
-  // TODO(cliente): confirmar domínio real antes do deploy.
-  url: "https://duocoffeepp.com.br",
+  url: "https://duocoffee.com.br",
   // Cor da marca (o laranja do botão primário). Troque SÓ aqui
   // e o site inteiro se reveste. (injetada como variável CSS no layout)
   brandColor: "#CE4A1E",
   brandColorDark: "#A93A15",
+  // Cor da barra do navegador em mobile (meta theme-color). Usa o creme
+  // de fundo, não o laranja — a marca já aparece na UI, a barra do
+  // sistema não precisa gritar.
+  themeColor: "#F4EFE6",
   locale: "pt-BR",
 
   // ── Contato (vira CTA, rodapé e dados estruturados) ────────
@@ -34,22 +37,18 @@ export const site = {
     phoneDisplay: "(18) 3908-1313",
     whatsapp: "5518996564364", // só números, padrão do link wa.me
     whatsappDisplay: "(18) 99656-4364",
-    // TODO(cliente): confirmar e-mail comercial monitorado.
-    email: "contato@duocoffeepp.com.br",
+    email: "marcelonabas@gmail.com",
     address: {
       streetAddress: "Rua José Bongiovani, 445",
       neighborhood: "Vila Liberdade",
       addressLocality: "Presidente Prudente",
       addressRegion: "SP",
-      // TODO(cliente): CEP não confirmado ainda.
-      postalCode: "",
+      postalCode: "19050-680",
       addressCountry: "BR",
     },
-    // TODO(cliente): coordenadas reais (Google Maps, ≥5 casas decimais).
-    // Enquanto nulo, o JSON-LD não emite `geo` (nunca fabricar coordenada).
     geo: {
-      latitude: null as number | null,
-      longitude: null as number | null,
+      latitude: -22.134674726950525 as number | null,
+      longitude: -51.39988406821203 as number | null,
     },
     mapsUrl:
       "https://www.google.com/maps/search/?api=1&query=Rua+Jos%C3%A9+Bongiovani+445+Vila+Liberdade+Presidente+Prudente",
@@ -80,8 +79,7 @@ export const site = {
 
   // ── Dados de negócio usados no JSON-LD (CafeOrCoffeeShop) ──
   business: {
-    // TODO(cliente): confirmar convenção de faixa de preço ($/$$/$$$).
-    priceRange: "$$",
+    priceRange: "R$20-R$40",
     foundedYear: 2023,
     cuisine: "Café especial",
   },
@@ -90,7 +88,7 @@ export const site = {
   seo: {
     title: "Duo Coffee — Café Especial e Eventos em Presidente Prudente",
     description:
-      "Cafés especiais, métodos como V60, Chemex, Clever, Aeropress e prensa francesa, além de um espaço acolhedor para encontros e eventos na Vila Liberdade, Presidente Prudente/SP.",
+      "Cafés especiais e métodos como V60, Chemex e Aeropress em um espaço acolhedor para encontros e eventos na Vila Liberdade, Presidente Prudente/SP.",
     ogImage: "/og-image.jpg", // 1200x630, em /public
   },
 } as const;
@@ -104,4 +102,5 @@ export const nav = [
   { label: "Cardápio", href: "#cardapio" },
   { label: "Depoimentos", href: "#depoimentos" },
   { label: "Como chegar", href: "#contato" },
+  { label: "Dúvidas", href: "#duvidas" },
 ] as const;

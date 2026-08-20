@@ -1,11 +1,14 @@
 ---
 /**
- * TODO(cliente): texto de placeholder, estruturalmente correto mas
- * genérico. Precisa de revisão jurídica antes do lançamento — não
- * inventamos cláusulas específicas do negócio (ver CLAUDE.md).
+ * TODO(cliente): texto estruturalmente completo (identificação, base
+ * legal, retenção, cookies, operador de dados), mas ainda pede revisão
+ * jurídica antes do lançamento — não inventamos cláusulas específicas
+ * do negócio além do que é factual (ver CLAUDE.md).
  */
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { site } from "../config/site";
+
+const lastUpdated = "20 de agosto de 2026";
 ---
 
 <BaseLayout
@@ -18,9 +21,10 @@ import { site } from "../config/site";
       <p class="mb-3 text-sm font-semibold uppercase tracking-wider text-orange-t">Privacidade</p>
       <h1 class="font-display text-4xl text-ink">Política de Privacidade</h1>
       <p class="mt-6 text-muted leading-relaxed">
-        Esta página descreve como a {site.name} trata os dados enviados através do
-        formulário de solicitação de eventos deste site, em conformidade com a Lei
-        Geral de Proteção de Dados (LGPD — Lei nº 13.709/2018).
+        Esta página descreve como a {site.legalName} (CNPJ {site.cnpj}), doravante
+        "Duo Coffee", trata os dados enviados através do formulário de solicitação
+        de eventos deste site, em conformidade com a Lei Geral de Proteção de
+        Dados (LGPD — Lei nº 13.709/2018).
       </p>
 
       <h2 class="mt-10 font-display text-2xl text-ink">Quais dados coletamos</h2>
@@ -31,12 +35,48 @@ import { site } from "../config/site";
         atendimento.
       </p>
 
-      <h2 class="mt-10 font-display text-2xl text-ink">Para que usamos</h2>
+      <h2 class="mt-10 font-display text-2xl text-ink">Para que usamos e base legal</h2>
       <p class="mt-3 text-muted leading-relaxed">
         Usamos essas informações exclusivamente para responder à sua solicitação
         de evento — confirmar disponibilidade, capacidade e condições — pelo
-        WhatsApp ou telefone informado. Não vendemos nem compartilhamos seus dados
-        com terceiros para fins de marketing.
+        WhatsApp ou telefone informado. O tratamento se baseia na execução de
+        procedimentos preliminares relacionados a um contrato do qual você é
+        parte interessada (art. 7º, V, LGPD) e no consentimento marcado no
+        próprio formulário. Não vendemos nem compartilhamos seus dados com
+        terceiros para fins de marketing.
+      </p>
+
+      <h2 class="mt-10 font-display text-2xl text-ink">Por quanto tempo guardamos</h2>
+      <p class="mt-3 text-muted leading-relaxed">
+        Mantemos os dados do formulário apenas pelo tempo necessário para
+        atender à sua solicitação de evento e eventual histórico comercial
+        relacionado a ela, sendo eliminados após esse período — exceto quando um
+        prazo maior for exigido por lei.
+      </p>
+
+      <h2 class="mt-10 font-display text-2xl text-ink">Com quem compartilhamos</h2>
+      <p class="mt-3 text-muted leading-relaxed">
+        O formulário de eventos é processado pela Formspree (Formspree, Inc.),
+        empresa sediada nos Estados Unidos que atua como nosso operador de dados
+        para o envio das solicitações — o que caracteriza uma transferência
+        internacional de dados nos termos da LGPD. Não compartilhamos seus dados
+        com mais ninguém além dela e da nossa equipe de atendimento.
+      </p>
+
+      <h2 class="mt-10 font-display text-2xl text-ink">Cookies</h2>
+      <p class="mt-3 text-muted leading-relaxed">
+        Este site não usa cookies próprios de rastreamento ou analytics. A
+        página "Como chegar" incorpora um mapa do Google Maps, que pode definir
+        cookies do Google no seu navegador para exibir o mapa corretamente — o
+        tratamento desses cookies é regido pela{" "}
+        <a
+          href="https://policies.google.com/privacy"
+          target="_blank"
+          rel="noopener"
+          class="text-orange-t hover:text-ink underline"
+        >
+          política de privacidade do Google
+        </a>.
       </p>
 
       <h2 class="mt-10 font-display text-2xl text-ink">Seus direitos</h2>
@@ -50,7 +90,7 @@ import { site } from "../config/site";
       </p>
 
       <p class="mt-10 text-sm text-muted">
-        Última atualização: a definir após revisão jurídica.
+        Última atualização: {lastUpdated}.
       </p>
     </div>
   </section>

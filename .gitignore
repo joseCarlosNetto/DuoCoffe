@@ -6,3 +6,7 @@ dist/
 .env
 .vercel
 .netlify
+
+# Lixo de metadados de pasta do Windows/Google Drive
+desktop.ini
+Thumbs.db

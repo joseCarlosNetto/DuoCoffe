@@ -37,7 +37,7 @@ const featuredImg = featuredMethod?.image ? getImage(featuredMethod.image.src) :
                 {featuredMethod.tag}
               </span>
             )}
-            <p class="font-display text-[1.9rem] text-white">{featuredMethod.name}</p>
+            <h3 class="font-display font-normal text-[1.9rem] text-white">{featuredMethod.name}</h3>
             <p class="mt-2 text-sm text-cream/80">{featuredMethod.description}</p>
             <div class="mt-auto flex flex-col gap-2.5 pt-6">
               {featuredMethod.attributes.map((attr) => (
@@ -62,7 +62,7 @@ const featuredImg = featuredMethod?.image ? getImage(featuredMethod.image.src) :
         otherMethods.map((method) => (
           <div class="reveal lg:w-full">
             <div class="flex h-full flex-col rounded-[var(--radius-card)] border border-line bg-surface p-6 transition-transform hover:-translate-y-1 hover:shadow-[var(--shadow-soft)]">
-              <p class="font-display text-[1.6rem] text-ink">{method.name}</p>
+              <h3 class="font-display font-normal text-[1.6rem] text-ink">{method.name}</h3>
               <p class="mt-2 text-sm text-muted">{method.description}</p>
               <div class="mt-auto flex flex-col gap-2.5 pt-6">
                 {method.attributes.map((attr) => (

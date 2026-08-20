@@ -137,3 +137,15 @@ public/                   → favicon, og-image, robots.txt
 Toda alteração de código deve passar limpo em `npm run build` antes do
 resumo de fechamento. Imagens em `src/assets/`; nunca quebrar o
 pipeline de otimização.
+
+---
+
+## Agent skills
+
+### Issue tracker
+
+Issues rastreados no GitHub Issues do repo `joseCarlosNetto/Site`, via CLI `gh`. See `docs/agents/issue-tracker.md`.
+
+### Domain docs
+
+Single-context: `CONTEXT.md` + `docs/adr/` na raiz do repo. See `docs/agents/domain.md`.

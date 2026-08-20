@@ -1,0 +1,33 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/ui/Section.astro";
+import Button from "../components/ui/Button.astro";
+import { site } from "../config/site";
+import { notFound } from "../config/content";
+
+const waLink = `https://wa.me/${site.contact.whatsapp}`;
+---
+
+<BaseLayout
+  title={`Página não encontrada — ${site.name}`}
+  description={notFound.body}
+  path="/404"
+  noindex
+>
+  <Section center tone="subtle" eyebrow={notFound.eyebrow}>
+    <!-- H1 próprio: Section reserva o h2 para título de seção normal,
+         então o título real da página vem no slot para manter a
+         hierarquia h1 única. -->
+    <h1 class="text-3xl text-ink sm:text-4xl">{notFound.title}</h1>
+    <p class="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-muted">
+      {notFound.body}
+    </p>
+    <div class="mt-8 flex flex-wrap justify-center gap-3.5">
+      <Button href="/" variant="primary">{notFound.homeLabel}</Button>
+      <Button href="/#contato" variant="secondary">{notFound.directionsLabel}</Button>
+      <Button href={waLink} target="_blank" rel="noopener" variant="whatsapp">
+        Falar no WhatsApp
+      </Button>
+    </div>
+  </Section>
+</BaseLayout>
