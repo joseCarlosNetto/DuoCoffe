@@ -35,8 +35,8 @@ export const site = {
   contact: {
     phone: "+551839081313",
     phoneDisplay: "(18) 3908-1313",
-    whatsapp: "5518996564364", // só números, padrão do link wa.me
-    whatsappDisplay: "(18) 99656-4364",
+    whatsapp: "5518996027621", // só números, padrão do link wa.me
+    whatsappDisplay: "(18) 99602-7621",
     email: "marcelonabas@gmail.com",
     address: {
       streetAddress: "Rua José Bongiovani, 445",
