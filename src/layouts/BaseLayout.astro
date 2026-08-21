@@ -67,6 +67,14 @@ const { title, description, path, noindex } = Astro.props;
           { threshold: 0.12 }
         );
         els.forEach((el) => io.observe(el));
+
+        // Rede de seguranca: se algo impedir o IntersectionObserver de
+        // disparar (crawler sem scroll real, timing incomum), garante
+        // que o conteudo nao fique preso em opacity:0 pra sempre.
+        setTimeout(() => {
+          els.forEach((el) => el.classList.add("is-visible"));
+          io.disconnect();
+        }, 3000);
       }
     </script>
 

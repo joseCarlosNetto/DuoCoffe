@@ -28,7 +28,9 @@ const {
   businessSchema = path === "/",
 } = Astro.props;
 
-const canonical = new URL(path, site.url).href;
+// Sem barra final mesmo na home — bate com trailingSlash: "never" (astro.config)
+// e com as URLs emitidas pelo sitemap, evitando ambiguidade de canonical.
+const canonical = path === "/" ? site.url : new URL(path, site.url).href;
 const ogImage = new URL(site.seo.ogImage, site.url).href;
 const ogImageAlt = `${site.name} — ${site.tagline}`;
 const { address, geo } = site.contact;
